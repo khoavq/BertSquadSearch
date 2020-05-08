@@ -2,7 +2,7 @@ import json
 from bert_serving.client import BertClient
 from pprint import pprint
 
-bc = BertClient(output_fmt='list', check_length=True)
+bc = BertClient(output_fmt='list', check_length=False)
 
 
 def create_question_document(d_id, question, emb):
