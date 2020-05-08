@@ -1,0 +1,10 @@
+server {
+  listen 80;
+  server_name 115.146.87.43;
+  root ~/dev/;
+  index index.html;
+  
+  location / {
+    try_files $uri /index.html =404;
+  }
+}
