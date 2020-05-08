@@ -1,5 +1,6 @@
 import json
 from bert_serving.client import BertClient
+from pprint import pprint
 
 bc = BertClient(output_fmt='list', check_length=False)
 
@@ -24,6 +25,7 @@ def main():
             q = question.get("question")
             d_id = question.get('id')
             a = create_question_document(d_id, q, bc.encode([q])[0])
+            pprint(a)
             f.write(json.dumps(a) + '\n')
 
 
