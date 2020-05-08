@@ -1,0 +1,5 @@
+bert-serving-client==1.10.0
+elasticsearch
+Flask
+flask-cors
+deeppavlov
