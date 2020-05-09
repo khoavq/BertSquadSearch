@@ -3,6 +3,11 @@ import { Segment, Grid, GridColumn } from "semantic-ui-react";
 import { RootStoreContext } from "../store/rootStore";
 import { observer } from "mobx-react-lite";
 
+const colors = ["orange", "teal", "purple"]
+const randomColor = index => {
+    return colors[index]
+}
+
 const ResultList = () => {
   const rootStore = useContext(RootStoreContext);
   const { qnaResult } = rootStore;
@@ -16,9 +21,13 @@ const ResultList = () => {
     } </span>;
 }
 
-  const mapResultToComponents = (result) => (
+  const mapResultToComponents = (result, index) => (
       result.context && (
-      <Segment size="big">
+      <Segment size="big" key={index} color={randomColor(index)}>
+          <p>
+          <strong>Score:</strong>{" "}
+          {result.score}
+        </p>
         <p>
           <strong>Paragraph:</strong>{" "}
           {getHighlightedText(result.context, result.answer)}
@@ -33,9 +42,8 @@ const ResultList = () => {
   return (
     <Grid className="container">
       <GridColumn>
-        {mapResultToComponents(qnaResult)}
+          {qnaResult.length > 0 && qnaResult.map((result, index) => mapResultToComponents(result, index))}
       </GridColumn>
-
     </Grid>
   );
 };

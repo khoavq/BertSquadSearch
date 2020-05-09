@@ -53,7 +53,7 @@ def search(query):
     return client.search(
         index="squad1.1",
         body={
-                "size": 5,
+                "size": 3,
                 "query": query,
                 # "_source": {"includes": ["context_id, question"]}
             }
@@ -65,20 +65,22 @@ def qna():
     query = request.args.get('q')
     search_result = search(script_query(create_query_vector(query)))
 
-    hit = (search_result.get("hits").get("hits"))[0]
-    source = hit.get("_source")
-    question = source.get("question")
-    context_id = source.get("context_id")
-
-    context = find_context(context_id)
-
-    result = model([context], [question])
-    response = {
-                "context": context,
-                "answer": result[0][0]
-                }
-
-    return jsonify(response)
+    answers = []
+    hits = (search_result.get("hits").get("hits"))
+    for hit in hits:
+        score = hit.get("_score")
+        source = hit.get("_source")
+        question = source.get("question")
+        context_id = source.get("context_id")
+        context = find_context(context_id)
+        result = model([context], [question])
+        answer = {
+                    "score": score,
+                    "context": context,
+                    "answer": result[0][0]
+                    }
+        answers.append(answer)
+    return jsonify(answers)
 
 
 if __name__ == '__main__':
