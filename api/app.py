@@ -13,7 +13,7 @@ app.config.from_object(__name__)
 
 CORS(app, resources={r'/*': {'origin': '*'}})
 
-model = build_model(configs.squad.squad_bert, download=False)
+model = build_model(configs.squad.squad_bert, download=True)
 
 
 def find_context(context_id):
