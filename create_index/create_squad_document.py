@@ -9,7 +9,7 @@ def create_question_document(d_id, question, emb):
     return {
         '_op_type': 'index',
         '_index': 'squad1.1',
-        'context_ id': d_id,
+        'context_id': d_id,
         'question': question,
         'text_vector': emb
     }

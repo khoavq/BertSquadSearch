@@ -11,7 +11,7 @@ const Navbar = props => {
         if (query.length < 4) {
             return;
         }
-        const res = await Axios.get(`http://localhost:5000/qna?q=${query}`);
+        const res = await Axios.get(`/qna?q=${query}`);
         console.log(res.data)
         rootStore.setQnAResult(res.data)
     }, 500);
