@@ -8,11 +8,12 @@ const Navbar = props => {
     const rootStore = useContext(RootStoreContext);
 
     const handleOnChange = _.debounce(async query => {
+        rootStore.loading.set(true);
         if (query.length < 4) {
             return;
         }
         const res = await Axios.get(`http://localhost:5000/qna?q=${query}`);
-        console.log(res.data)
+        rootStore.loading.set(false);
         rootStore.setQnAResult(res.data)
     }, 500);
 

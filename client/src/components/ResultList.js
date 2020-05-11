@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, Fragment } from "react";
 import { Segment, Grid, GridColumn } from "semantic-ui-react";
 import { RootStoreContext } from "../store/rootStore";
 import { observer } from "mobx-react-lite";
+import LoadingComponent from "./LoadingComponent";
 
 const colors = ["orange", "teal", "purple"]
 const randomColor = index => {
@@ -10,7 +11,7 @@ const randomColor = index => {
 
 const ResultList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { qnaResult } = rootStore;
+  const { qnaResult, loading } = rootStore;
 
   const getHighlightedText = (text, highlight) => {
     const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
@@ -40,11 +41,16 @@ const ResultList = () => {
     ))
 
   return (
-    <Grid className="container">
-      <GridColumn>
-          {qnaResult.length > 0 && qnaResult.map((result, index) => mapResultToComponents(result, index))}
-      </GridColumn>
-    </Grid>
+      <Fragment>
+          {loading.get() ? <LoadingComponent content={"Searching..."}/> :
+              <Grid className="container">
+                  <GridColumn>
+                      {qnaResult.length > 0 && qnaResult.map((result, index) => mapResultToComponents(result, index))}
+                  </GridColumn>
+              </Grid>
+          }
+      </Fragment>
+
   );
 };
 
