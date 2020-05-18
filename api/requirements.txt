@@ -3,3 +3,4 @@ elasticsearch
 Flask
 flask-cors
 deeppavlov
+redis

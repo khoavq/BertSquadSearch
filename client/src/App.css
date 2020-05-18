@@ -1,9 +1,18 @@
 .container {
-    padding-top: 100px;
-    padding-bottom: 100px;
-  }
-  
-  #root {
-    background-color: rgb(243, 243, 243);
-  
-  }
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+#root {
+  background-color: rgb(243, 243, 243);
+}
+
+.ui.input > input {
+  border-top-right-radius: 0rem !important;
+  border-bottom-right-radius: 0rem !important;
+}
+
+.ui.button {
+  border-top-left-radius: 0rem !important;
+  border-bottom-left-radius: 0rem !important;
+}

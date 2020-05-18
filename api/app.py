@@ -1,6 +1,6 @@
 import json
 import os
-from pprint import pprint
+import redis
 from deeppavlov import build_model, configs
 from flask import Flask, jsonify, request
 from elasticsearch import Elasticsearch
@@ -10,6 +10,8 @@ from glob import glob
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+redis_db = redis.StrictRedis(host="localhost", port=6379, db=0)
+
 
 CORS(app, resources={r'/*': {'origin': '*'}})
 
@@ -48,12 +50,12 @@ def script_query(query_vector):
         }
 
 
-def search(query):
+def search(size, query):
     client = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     return client.search(
         index="squad1.1",
         body={
-                "size": 3,
+                "size": size,
                 "query": query,
                 # "_source": {"includes": ["context_id, question"]}
             }
@@ -63,22 +65,37 @@ def search(query):
 @app.route('/qna')
 def qna():
     query = request.args.get('q')
-    search_result = search(script_query(create_query_vector(query)))
+    print(request.args.get('q'))
+    size = request.args.get('limit')
+    print(size)
+    search_result = search(size, script_query(create_query_vector(query)))
 
     answers = []
     hits = (search_result.get("hits").get("hits"))
     for hit in hits:
-        score = hit.get("_score")
+        # score = hit.get("_score")
         source = hit.get("_source")
         question = source.get("question")
         context_id = source.get("context_id")
         context = find_context(context_id)
-        result = model([context], [question])
-        answer = {
-                    "score": score,
-                    "context": context,
-                    "answer": result[0][0]
-                    }
+        # get answer from redis
+        cached_answer = redis_db.get(question)
+        print(question)
+        if cached_answer:
+
+            answer = {
+                "context": redis_db.get(context_id).decode("utf-8"),
+                "answer": cached_answer.decode("utf-8")
+            }
+        else:
+            result = model([context], [question])
+            ans = result[0][0]
+            answer = {
+                        "context": context,
+                        "answer": ans
+                        }
+            redis_db.set(question, ans)
+            redis_db.set(context_id, context)
         answers.append(answer)
     return jsonify(answers)
 
