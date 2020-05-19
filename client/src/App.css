@@ -16,3 +16,13 @@
   border-top-left-radius: 0rem !important;
   border-bottom-left-radius: 0rem !important;
 }
+
+.menu_header {
+  color: white !important;
+  margin-bottom: 0rem !important;
+}
+
+.question {
+  background-color: teal;
+  color: white;
+}

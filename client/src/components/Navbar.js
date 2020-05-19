@@ -6,6 +6,9 @@ import {
   Dropdown,
   Button,
   Select,
+  Grid,
+  GridColumn,
+  Header,
 } from "semantic-ui-react";
 import Axios from "axios";
 import { RootStoreContext } from "../store/rootStore";
@@ -24,6 +27,7 @@ const Navbar = (props) => {
     );
     rootStore.loading.set(false);
     rootStore.setQnAResult(res.data);
+    console.log(res.data);
   };
 
   const searchOptions = [
@@ -33,7 +37,7 @@ const Navbar = (props) => {
   ];
 
   return (
-    <Menu fixed="top" color="blue" fluid widths={2} inverted borderless>
+    <Menu fixed="top" color="blue" widths={2} fluid inverted>
       <MenuItem>
         <Input
           action
