@@ -26,3 +26,7 @@
   background-color: teal;
   color: white;
 }
+
+.no_answer {
+  color: red;
+}

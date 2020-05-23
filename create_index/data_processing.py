@@ -4,7 +4,7 @@ from pprint import pprint
 
 
 def create_topics_files():
-    file = open('./dataset/squad_dev-v1.1.json', encoding='utf8')
+    file = open('./dataset/squad_dev-v2.0.json', encoding='utf8')
     data = json.load(file)
     for index, topic in enumerate(data.get('data')):
         title = topic.get('title')
@@ -13,7 +13,11 @@ def create_topics_files():
         for i, paragraph in enumerate(paragraphs):
             questions_list = []
             for q in paragraph.get('qas'):
-                questions_list.append(q.get('question'))
+                question = {
+                    'question': q.get('question'),
+                    'is_impossible': q.get('is_impossible')
+                }
+                questions_list.append(question)
             content = {
                 'id': f'{index + 1}_{i + 1}',
                 'context': paragraph.get('context'),
@@ -38,7 +42,8 @@ def create_all_questions_file():
             for question in d.get('questions'):
                 content = {
                             'id': d.get('id'),
-                            'question': question
+                            'question': question.get('question'),
+                            'is_impossible': question.get('is_impossible')
                             }
                 question_list.append(content)
     with open('./dataset/questions/all_questions.json', 'w') as f:

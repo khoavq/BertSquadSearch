@@ -1,23 +1,12 @@
 import React, { useContext, useState } from "react";
-import {
-  Menu,
-  MenuItem,
-  Input,
-  Dropdown,
-  Button,
-  Select,
-  Grid,
-  GridColumn,
-  Header,
-} from "semantic-ui-react";
+import { Menu, MenuItem, Input, Button, Select } from "semantic-ui-react";
 import Axios from "axios";
 import { RootStoreContext } from "../store/rootStore";
 import _ from "lodash";
-import DropdownItem from "semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem";
 
-const Navbar = (props) => {
+const Navbar = () => {
   const rootStore = useContext(RootStoreContext);
-  let { searchOption } = rootStore;
+  let { searchOption, setSearchOption } = rootStore;
   let [query, setQuery] = useState("");
 
   const handleOnClick = async () => {
@@ -31,9 +20,10 @@ const Navbar = (props) => {
   };
 
   const searchOptions = [
-    { key: 1, value: 1, text: "only 1 result" },
-    { key: 2, value: 2, text: "only 2 results" },
-    { key: 3, value: 3, text: "only 3 results" },
+    { key: 1, value: 1, text: "1 result" },
+    { key: 2, value: 2, text: "2 results" },
+    { key: 3, value: 5, text: "5 results" },
+    { key: 4, value: 10, text: "10 results" },
   ];
 
   return (
@@ -50,9 +40,9 @@ const Navbar = (props) => {
             compact
             options={searchOptions}
             defaultValue={searchOption}
-            onChange={(e, { value }) => (searchOption = value)}
+            onChange={(e, { value }) => setSearchOption(value)}
           />
-          <Button content="Search" color="green" onClick={handleOnClick} />
+          <Button content="Search" color="teal" onClick={handleOnClick} />
         </Input>
       </MenuItem>
     </Menu>

@@ -54,7 +54,7 @@ def script_query(query_vector):
 def search(size, query):
     client = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     return client.search(
-        index="squad1.1",
+        index="squad2.0",
         body={
             "size": size,
             "query": query,
@@ -73,12 +73,15 @@ def qna():
 
     answers = []
     hits = (search_result.get("hits").get("hits"))
+    pprint(f"HITS: {hits}")
     for hit in hits:
         score = hit.get("_score")
         source = hit.get("_source")
+        is_impossible = source.get("is_impossible")
         question = source.get("question")
         context_id = source.get("context_id")
         context = find_context(context_id)
+
         # get answer from redis
         print(f"MATCHING QUESTION: {question}")
         if len(redis_db.hgetall(question)) != 0:
@@ -90,13 +93,16 @@ def qna():
                 "answer": redis_db.hget(question, "answer").decode("utf-8")
             }
         else:
-            result = model([context], [question])
-            ans = result[0][0]
+            ans = ""
+            if not is_impossible:
+                result = model([context], [question])
+                ans = result[0][0]
             answer = {
                 "score": score,
                 "context": context,
                 "question": question,
-                "answer": ans
+                "answer": ans,
+                "is_impossible": is_impossible
             }
             pprint(f"FOUND ANSWER: {ans}")
             # cache result having highest score = 2.0
@@ -105,6 +111,7 @@ def qna():
                 redis_db.hset(question, "context", context)
                 redis_db.hset(question, "question", question)
                 redis_db.hset(question, "answer", ans)
+                redis_db.hset(question, "is_impossible", "false")
                 pprint(f"CACHED RESULT")
         answers.append(answer)
     return jsonify(answers)

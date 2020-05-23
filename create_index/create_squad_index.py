@@ -2,7 +2,7 @@ from elasticsearch import Elasticsearch
 
 
 def main():
-    index_name = 'squad1.1'
+    index_name = 'squad2.0'
     print("Creating index")
     client = Elasticsearch()
     client.indices.delete(index=index_name, ignore=[404])

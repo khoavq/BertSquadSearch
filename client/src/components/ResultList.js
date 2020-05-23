@@ -34,25 +34,33 @@ const ResultList = () => {
     );
   };
 
-  const mapResultToComponents = (result, index) =>
-    result.context && (
-      <Segment size="big" key={index} color={randomColor(index)}>
-        <p>
-          <strong>Score:</strong> {result.score}
-        </p>
-        <p>
-          <strong>Paragraph:</strong>{" "}
-          {getHighlightedText(result.context, result.answer)}
-        </p>
-        <p>
-          <strong>Question:</strong>{" "}
-          <span className="question">{result.question}</span>
-        </p>
-        <p>
-          <strong>Answer:</strong> {result.answer}
-        </p>
-      </Segment>
+  const mapResultToComponents = (result, index) => {
+    return (
+      result.context && (
+        <Segment size="big" key={index} color={randomColor(index)}>
+          <p>
+            <strong>Score:</strong> {result.score}
+          </p>
+          <p>
+            <strong>Paragraph:</strong>{" "}
+            {getHighlightedText(result.context, result.answer)}
+          </p>
+          <p>
+            <strong>Question:</strong>{" "}
+            <span className="question">{result.question}</span>
+          </p>
+          <p>
+            <strong>Answer:</strong>{" "}
+            {result.is_impossible ? (
+              <span className="no_answer">NO ANSWER</span>
+            ) : (
+              result.answer
+            )}
+          </p>
+        </Segment>
+      )
     );
+  };
 
   return (
     <Fragment>

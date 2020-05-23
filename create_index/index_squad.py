@@ -12,7 +12,7 @@ def load_dataset(path):
 
 def main():
     client = Elasticsearch()
-    docs = load_dataset("squad_question.jsonl")
+    docs = load_dataset("squad_question_2.0.jsonl")
     bulk(client, docs)
 
 
