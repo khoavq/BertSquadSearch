@@ -90,7 +90,8 @@ def qna():
                 "score": redis_db.hget(question, "score").decode("utf-8"),
                 "context": redis_db.hget(question, "context").decode("utf-8"),
                 "question": redis_db.hget(question, "question").decode("utf-8"),
-                "answer": redis_db.hget(question, "answer").decode("utf-8")
+                "answer": redis_db.hget(question, "answer").decode("utf-8"),
+                "is_impossible": redis_db.hget(question, "is_impossible").decode("utf-8")
             }
         else:
             ans = ""
@@ -111,11 +112,11 @@ def qna():
                 redis_db.hset(question, "context", context)
                 redis_db.hset(question, "question", question)
                 redis_db.hset(question, "answer", ans)
-                redis_db.hset(question, "is_impossible", "false")
-                pprint(f"CACHED RESULT")
+                redis_db.hset(question, "is_impossible", "true" if is_impossible else "false")
         answers.append(answer)
     return jsonify(answers)
 
 
 if __name__ == '__main__':
+    redis_db.flushall()
     app.run(host='0.0.0.0', port=5000)
