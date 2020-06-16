@@ -10,7 +10,7 @@ Open new Command Line (cmd), run the following commands:
 #### 2. bert-as-service server
 Download BERT-Base, Cased from this [link](https://storage.googleapis.com/bert_models/2018_10_18/cased_L-12_H-768_A-12.zip)  
 Extract the zip file to C:\dev\cased_L-12_H-768_A-12\  
-Run `pip install -r C:\dev\bertserving\requirements.txt`  
+Run `pip install -r C:\dev\BertSquadSearch\bertserving\requirements.txt`  
 Make sure you are still in venv (step 1)  
 Run `bert-serving-start -model_dir=C:\dev\cased_L-12_H-768_A-12/ -num_worker=2`  
 
