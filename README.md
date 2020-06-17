@@ -17,8 +17,7 @@ Run `bert-serving-start -model_dir=C:\dev\cased_L-12_H-768_A-12/ -num_worker=2`
 #### 3. Elasticsearch server
 Follow this link to [download Elasticsearch v7.7.1](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.7.1-windows-x86_64.zip)  
 Unzip to C:\dev\  
-Open new cmd, run `cd C:\dev\BertSquadSearch`, then `.\venv\Scripts\activate`  
-Run `C:\dev\elasticsearch-7.7.1\bin\elasticsearch.bat`  
+Open new cmd, run `C:\dev\elasticsearch-7.7.1\bin\elasticsearch.bat`  
 Run `curl http://localhost:9200/`(this command is to test if Elasticsearch is running)  
 
 #### 4. Index all questions 
@@ -31,7 +30,7 @@ And run `python index_squad.py` to put the questions index to elasticsearch
 OR  
 Generate all questions file and all topics files `python3 data_processing.py`  
 Create all questions index in json format  `python3 create_quad_document.py`   
-Run `python3 index_squad.py` to put the questions index to elasticsearch
+Run `python index_squad.py` to put the questions index to elasticsearch
 
 #### 5. API
 Open new cmd, run `cd C:\dev\BertSquadSearch`, then `.\venv\Scripts\activate` 
