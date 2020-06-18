@@ -12,7 +12,7 @@ Download BERT-Base, Cased from this [link](https://storage.googleapis.com/bert_m
 Extract the zip file to C:\dev\cased_L-12_H-768_A-12\  
 Run `pip install -r C:\dev\BertSquadSearch\bertserving\requirements.txt`  
 Make sure you are still in venv (step 1)  
-Run `bert-serving-start -model_dir=C:\dev\cased_L-12_H-768_A-12/ -num_worker=2`  
+Run `bert-serving-start -model_dir=C:\dev\cased_L-12_H-768_A-12/ -num_worker=1`  
 
 #### 3. Elasticsearch server
 Follow this link to [download Elasticsearch v7.7.1](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.7.1-windows-x86_64.zip)  
