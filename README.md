@@ -25,6 +25,7 @@ Open new cmd, run `cd C:\dev\BertSquadSearch`, then `.\venv\Scripts\activate`
 `cd C:\dev\BertSquadSearch\create_index\`  
 `pip install -r requirements.txt`  
 Create index `python create_squad_index.py`  
+  
 You can unzip C:\dev\BertSquadSearch\create_index\squad_question_2.0.jsonl.zip to the same create_index folder  
 And run `python index_squad.py` to put the questions index to elasticsearch  
 OR  
